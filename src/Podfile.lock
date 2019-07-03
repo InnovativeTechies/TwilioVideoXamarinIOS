@@ -1,0 +1,16 @@
+PODS:
+  - TwilioVideo (2.10.0)
+
+DEPENDENCIES:
+  - TwilioVideo
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - TwilioVideo
+
+SPEC CHECKSUMS:
+  TwilioVideo: e4bd16d69c395fa093636bc9c09a654570578a32
+
+PODFILE CHECKSUM: 5c41934c828b9aeb9b7e38d7c93a3aec987c25bc
+
+COCOAPODS: 1.7.3
