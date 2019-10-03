@@ -145,14 +145,15 @@ namespace Twilio.Video.iOS
 
 	// @protocol TVIAudioDevice <TVIAudioDeviceRenderer, TVIAudioDeviceCapturer>
 	[Protocol, Model]
-	// TODO
     [BaseType(typeof(NSObject))]
 	interface TVIAudioDevice : TVIAudioDeviceRenderer, TVIAudioDeviceCapturer
 	{
 	}
 
-	// @interface TVIAudioOptionsBuilder : NSObject
-	[BaseType (typeof(NSObject))]
+    interface ITVIAudioDevice { }
+
+    // @interface TVIAudioOptionsBuilder : NSObject
+    [BaseType (typeof(NSObject))]
 	[DisableDefaultCtor]
 	interface TVIAudioOptionsBuilder
 	{
@@ -2379,11 +2380,11 @@ namespace Twilio.Video.iOS
       	// @property (nonatomic, strong, class) id<TVIAudioDevice> _Nonnull audioDevice;
         [Static]
         [Export("audioDevice", ArgumentSemantic.Strong)]
-        TVIAudioDevice GetAudioDevice();
+        ITVIAudioDevice GetAudioDevice();
 
         [Static]
         [Export("setAudioDevice:", ArgumentSemantic.Strong)]
-        void SetAudioDevice(TVIAudioDevice audioDevice);
+        void SetAudioDevice(ITVIAudioDevice audioDevice);
 
 		// +(TVIRoom * _Nonnull)connectWithOptions:(TVIConnectOptions * _Nonnull)options delegate:(id<TVIRoomDelegate> _Nullable)delegate;
 		[Static]
