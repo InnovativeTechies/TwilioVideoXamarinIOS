@@ -8,7 +8,6 @@ using CoreVideo;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
-using System.Runtime.InteropServices;
 
 namespace Twilio.Video.iOS
 {
@@ -23,37 +22,38 @@ namespace Twilio.Video.iOS
 	}
 
 	[Static]
+	// [Verify (ConstantsInterfaceAssociation)]
 	partial interface Constants
 	{
-		// extern const uint32_t TVIAudioSampleRate8000;
+		// extern const uint32_t TVIAudioSampleRate8000 __attribute__((swift_name("AudioFormat.SampleRate8000")));
 		[Field ("TVIAudioSampleRate8000", "__Internal")]
 		uint TVIAudioSampleRate8000 { get; }
 
-		// extern const uint32_t TVIAudioSampleRate16000;
+		// extern const uint32_t TVIAudioSampleRate16000 __attribute__((swift_name("AudioFormat.SampleRate16000")));
 		[Field ("TVIAudioSampleRate16000", "__Internal")]
 		uint TVIAudioSampleRate16000 { get; }
 
-		// extern const uint32_t TVIAudioSampleRate24000;
+		// extern const uint32_t TVIAudioSampleRate24000 __attribute__((swift_name("AudioFormat.SampleRate24000")));
 		[Field ("TVIAudioSampleRate24000", "__Internal")]
 		uint TVIAudioSampleRate24000 { get; }
 
-		// extern const uint32_t TVIAudioSampleRate32000;
+		// extern const uint32_t TVIAudioSampleRate32000 __attribute__((swift_name("AudioFormat.SampleRate32000")));
 		[Field ("TVIAudioSampleRate32000", "__Internal")]
 		uint TVIAudioSampleRate32000 { get; }
 
-		// extern const uint32_t TVIAudioSampleRate44100;
+		// extern const uint32_t TVIAudioSampleRate44100 __attribute__((swift_name("AudioFormat.SampleRate44100")));
 		[Field ("TVIAudioSampleRate44100", "__Internal")]
 		uint TVIAudioSampleRate44100 { get; }
 
-		// extern const uint32_t TVIAudioSampleRate48000;
+		// extern const uint32_t TVIAudioSampleRate48000 __attribute__((swift_name("AudioFormat.SampleRate48000")));
 		[Field ("TVIAudioSampleRate48000", "__Internal")]
 		uint TVIAudioSampleRate48000 { get; }
 
-		// extern const size_t TVIAudioChannelsMono;
+		// extern const size_t TVIAudioChannelsMono __attribute__((swift_name("AudioFormat.ChannelsMono")));
 		[Field ("TVIAudioChannelsMono", "__Internal")]
 		nuint TVIAudioChannelsMono { get; }
 
-		// extern const size_t TVIAudioChannelsStereo;
+		// extern const size_t TVIAudioChannelsStereo __attribute__((swift_name("AudioFormat.ChannelsStereo")));
 		[Field ("TVIAudioChannelsStereo", "__Internal")]
 		nuint TVIAudioChannelsStereo { get; }
 	}
@@ -81,15 +81,14 @@ namespace Twilio.Video.iOS
 
 		// -(size_t)bufferSize;
 		[Export ("bufferSize")]
+		// [Verify (MethodToProperty)]
 		nuint BufferSize { get; }
 
 		// -(AudioStreamBasicDescription)streamDescription;
 		[Export ("streamDescription")]
+		// [Verify (MethodToProperty)]
 		AudioStreamBasicDescription StreamDescription { get; }
 	}
-
-	// typedef void (^TVIAudioDeviceWorkerBlock)();
-	delegate void TVIAudioDeviceWorkerBlock ();
 
 	// @protocol TVIAudioDeviceRenderer <NSObject>
 	[Protocol, Model]
@@ -99,14 +98,16 @@ namespace Twilio.Video.iOS
 		// @required -(TVIAudioFormat * _Nullable)renderFormat;
 		[Abstract]
 		[NullAllowed, Export ("renderFormat")]
+		// [Verify (MethodToProperty)]
 		TVIAudioFormat RenderFormat { get; }
 
 		// @required -(BOOL)initializeRenderer;
 		[Abstract]
 		[Export ("initializeRenderer")]
+		// [Verify (MethodToProperty)]
 		bool InitializeRenderer { get; }
 
-		// @required -(BOOL)startRendering:(TVIAudioDeviceContext _Nonnull)context;
+		// @required -(BOOL)startRendering:(TVIAudioDeviceContext _Nonnull)context __attribute__((swift_name("startRendering(context:)")));
 		[Abstract]
 		[Export ("startRendering:")]
 		unsafe bool StartRendering (IntPtr context);
@@ -114,6 +115,7 @@ namespace Twilio.Video.iOS
 		// @required -(BOOL)stopRendering;
 		[Abstract]
 		[Export ("stopRendering")]
+		// [Verify (MethodToProperty)]
 		bool StopRendering { get; }
 	}
 
@@ -125,14 +127,16 @@ namespace Twilio.Video.iOS
 		// @required -(TVIAudioFormat * _Nullable)captureFormat;
 		[Abstract]
 		[NullAllowed, Export ("captureFormat")]
+		// [Verify (MethodToProperty)]
 		TVIAudioFormat CaptureFormat { get; }
 
 		// @required -(BOOL)initializeCapturer;
 		[Abstract]
 		[Export ("initializeCapturer")]
+		// [Verify (MethodToProperty)]
 		bool InitializeCapturer { get; }
 
-		// @required -(BOOL)startCapturing:(TVIAudioDeviceContext _Nonnull)context;
+		// @required -(BOOL)startCapturing:(TVIAudioDeviceContext _Nonnull)context __attribute__((swift_name("startCapturing(context:)")));
 		[Abstract]
 		[Export ("startCapturing:")]
 		unsafe bool StartCapturing (IntPtr context);
@@ -140,20 +144,21 @@ namespace Twilio.Video.iOS
 		// @required -(BOOL)stopCapturing;
 		[Abstract]
 		[Export ("stopCapturing")]
+		// [Verify (MethodToProperty)]
 		bool StopCapturing { get; }
 	}
 
 	// @protocol TVIAudioDevice <TVIAudioDeviceRenderer, TVIAudioDeviceCapturer>
 	[Protocol, Model]
-    [BaseType(typeof(NSObject))]
+	[BaseType(typeof(NSObject))]
 	interface TVIAudioDevice : TVIAudioDeviceRenderer, TVIAudioDeviceCapturer
 	{
 	}
 
-    interface ITVIAudioDevice { }
+	interface ITVIAudioDevice { }
 
-    // @interface TVIAudioOptionsBuilder : NSObject
-    [BaseType (typeof(NSObject))]
+	// @interface TVIAudioOptionsBuilder : NSObject
+	[BaseType (typeof(NSObject))]
 	[DisableDefaultCtor]
 	interface TVIAudioOptionsBuilder
 	{
@@ -172,14 +177,6 @@ namespace Twilio.Video.iOS
 		// @property (assign, nonatomic) BOOL highpassFilter;
 		[Export ("highpassFilter")]
 		bool HighpassFilter { get; set; }
-
-		// @property (assign, nonatomic) BOOL levelControl __attribute__((deprecated("levelControl is deprecated and setting it no longer has any effect. It will be removed in a future release.")));
-		[Export ("levelControl")]
-		bool LevelControl { get; set; }
-
-		// @property (assign, nonatomic) CGFloat levelControlInitialPeakLevelDBFS __attribute__((deprecated("levelControlInitialPeakLevelDBFS is deprecated and setting it no longer has any effect. It will be removed in a future release.")));
-		[Export ("levelControlInitialPeakLevelDBFS")]
-		nfloat LevelControlInitialPeakLevelDBFS { get; set; }
 	}
 
 	// typedef void (^TVIAudioOptionsBuilderBlock)(TVIAudioOptionsBuilder * _Nonnull);
@@ -204,14 +201,6 @@ namespace Twilio.Video.iOS
 		// @property (readonly, assign, nonatomic) BOOL highpassFilter;
 		[Export ("highpassFilter")]
 		bool HighpassFilter { get; }
-
-		// @property (readonly, assign, nonatomic) BOOL levelControl __attribute__((deprecated("levelControl is deprecated and setting it no longer has any effect. It will be removed in a future release.")));
-		[Export ("levelControl")]
-		bool LevelControl { get; }
-
-		// @property (readonly, assign, nonatomic) CGFloat levelControlInitialPeakLevelDBFS __attribute__((deprecated("levelControlInitialPeakLevelDBFS is deprecated and setting it no longer has any effect. It will be removed in a future release.")));
-		[Export ("levelControlInitialPeakLevelDBFS")]
-		nfloat LevelControlInitialPeakLevelDBFS { get; }
 
 		// +(instancetype _Null_unspecified)options;
 		[Static]
@@ -329,6 +318,103 @@ namespace Twilio.Video.iOS
 		double Timestamp { get; }
 	}
 
+	// @interface TVICameraPreviewView : UIView
+	[BaseType (typeof(UIView))]
+	interface TVICameraPreviewView
+	{
+		// @property (readonly, assign, nonatomic) UIInterfaceOrientation orientation;
+		[Export ("orientation", ArgumentSemantic.Assign)]
+		UIInterfaceOrientation Orientation { get; }
+
+		// @property (readonly, assign, nonatomic) CMVideoDimensions videoDimensions;
+		[Export ("videoDimensions", ArgumentSemantic.Assign)]
+		CMVideoDimensions VideoDimensions { get; }
+	}
+
+	// @protocol TVICameraSourceOrientationDelegate <NSObject>
+	[Protocol, Model (AutoGeneratedName = true)]
+	[BaseType (typeof(NSObject))]
+	interface TVICameraSourceOrientationDelegate
+	{
+		// @required -(void)trackerOrientationDidChange:(AVCaptureVideoOrientation)orientation __attribute__((swift_name("trackerOrientationDidChange(_:)")));
+		[Abstract]
+		[Export ("trackerOrientationDidChange:")]
+		void TrackerOrientationDidChange (AVCaptureVideoOrientation orientation);
+	}
+
+	// @protocol TVICameraSourceOrientationTracker <NSObject>
+	[Protocol, Model]
+	[BaseType (typeof(NSObject))]
+	interface TVICameraSourceOrientationTracker
+	{
+		[Wrap ("WeakDelegate")/*, Abstract*/]
+		[NullAllowed]
+		TVICameraSourceOrientationDelegate Delegate { get; set; }
+		
+		// @required @property (nonatomic, weak) id<TVICameraSourceOrientationDelegate> _Nullable delegate;
+		// [Abstract]
+		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
+		NSObject WeakDelegate { get; set; }
+
+		// @required @property (readonly, assign, nonatomic) AVCaptureVideoOrientation orientation;
+		[Abstract]
+		[Export ("orientation", ArgumentSemantic.Assign)]
+		AVCaptureVideoOrientation Orientation { get; }
+	}
+
+    interface ITVICameraSourceOrientationTracker : TVICameraSourceOrientationTracker
+    {
+
+    }
+
+	// @interface TVIUserInterfaceTracker : NSObject <TVICameraSourceOrientationTracker>
+	[BaseType (typeof(NSObject))]
+	interface TVIUserInterfaceTracker : TVICameraSourceOrientationTracker
+	{
+		// @property (readonly, assign, nonatomic) AVCaptureVideoOrientation orientation;
+		[Export ("orientation", ArgumentSemantic.Assign)]
+		AVCaptureVideoOrientation Orientation { get; }
+
+		// @property (readonly, nonatomic, weak) UIWindowScene * _Nullable scene __attribute__((availability(ios, introduced=13.0)));
+		[iOS (13, 0)]
+		[NullAllowed, Export ("scene", ArgumentSemantic.Weak)]
+		UIWindowScene Scene { get; }
+
+		// +(instancetype _Nonnull)tracker;
+		[Static]
+		[Export ("tracker")]
+		TVIUserInterfaceTracker Tracker ();
+
+		// +(instancetype _Nonnull)trackerWithScene:(UIWindowScene * _Nonnull)scene __attribute__((availability(ios, introduced=13.0)));
+		[iOS (13,0)]
+		[Static]
+		[Export ("trackerWithScene:")]
+		TVIUserInterfaceTracker TrackerWithScene (UIWindowScene scene);
+
+		// +(void)sceneInterfaceOrientationDidChange:(UIWindowScene * _Nonnull)scene __attribute__((availability(ios, introduced=13.0)));
+		[iOS (13,0)]
+		[Static]
+		[Export ("sceneInterfaceOrientationDidChange:")]
+		void SceneInterfaceOrientationDidChange (UIWindowScene scene);
+	}
+
+	// @interface TVIVideoFormat : NSObject
+	[BaseType (typeof(NSObject))]
+	interface TVIVideoFormat : INativeObject
+	{
+		// @property (assign, nonatomic) CMVideoDimensions dimensions;
+		[Export ("dimensions", ArgumentSemantic.Assign)]
+		CMVideoDimensions Dimensions { get; set; }
+
+		// @property (assign, nonatomic) NSUInteger frameRate;
+		[Export ("frameRate")]
+		nuint FrameRate { get; set; }
+
+		// @property (assign, nonatomic) TVIPixelFormat pixelFormat;
+		[Export ("pixelFormat", ArgumentSemantic.Assign)]
+		TVIPixelFormat PixelFormat { get; set; }
+	}
+
 	// @interface TVIVideoFrame : NSObject
 	[BaseType (typeof(NSObject))]
 	[DisableDefaultCtor]
@@ -364,198 +450,6 @@ namespace Twilio.Video.iOS
 		TVIVideoOrientation Orientation { get; }
 	}
 
-	// @interface TVIVideoFormat : NSObject
-	[BaseType (typeof(NSObject))]
-	interface TVIVideoFormat: INativeObject
-	{
-		// @property (assign, nonatomic) CMVideoDimensions dimensions;
-		[Export ("dimensions", ArgumentSemantic.Assign)]
-		CMVideoDimensions Dimensions { get; set; }
-
-		// @property (assign, nonatomic) NSUInteger frameRate;
-		[Export ("frameRate")]
-		nuint FrameRate { get; set; }
-
-		// @property (assign, nonatomic) TVIPixelFormat pixelFormat;
-		[Export ("pixelFormat", ArgumentSemantic.Assign)]
-		/*TVIPixelFormat*/ ulong PixelFormat { get; set; }
-	}
-
-	// @protocol TVIVideoCaptureConsumer <NSObject>
-	[Protocol, Model]
-	[BaseType (typeof(NSObject))]
-	interface TVIVideoCaptureConsumer
-	{
-		// @required -(void)consumeCapturedFrame:(TVIVideoFrame * _Nonnull)frame;
-		[Abstract]
-		[Export ("consumeCapturedFrame:")]
-		void ConsumeCapturedFrame (TVIVideoFrame frame);
-
-		// @required -(void)captureDidStart:(BOOL)success;
-		[Abstract]
-		[Export ("captureDidStart:")]
-		void CaptureDidStart (bool success);
-	}
-
-	// @protocol TVIVideoCapturer <NSObject>
-	[Protocol, Model]
-	[BaseType (typeof(NSObject))]
-	interface TVIVideoCapturer
-	{
-		// @required @property (readonly, getter = isScreencast, assign, nonatomic) BOOL screencast;
-		[Abstract]
-		[Export ("screencast")]
-		bool Screencast { [Bind ("isScreencast")] get; }
-
-		// @required @property (readonly, copy, nonatomic) NSArray<TVIVideoFormat *> * _Nonnull supportedFormats;
-		[Abstract]
-		[Export ("supportedFormats", ArgumentSemantic.Copy)]
-		TVIVideoFormat[] SupportedFormats { get; }
-
-		// @required -(void)startCapture:(TVIVideoFormat * _Nonnull)format consumer:(id<TVIVideoCaptureConsumer> _Nonnull)consumer;
-		[Abstract]
-		[Export ("startCapture:consumer:")]
-		void StartCapture (TVIVideoFormat format, TVIVideoCaptureConsumer consumer);
-
-		// @required -(void)stopCapture;
-		[Abstract]
-		[Export ("stopCapture")]
-		void StopCapture ();
-	}
-
-	partial interface Constants
-	{
-		// extern const CMVideoDimensions TVIVideoConstraintsSize352x288;
-		[Field ("TVIVideoConstraintsSize352x288", "__Internal")]
-		/*CMVideoDimensions*/ IntPtr TVIVideoConstraintsSize352x288 { get; }
-
-		// extern const CMVideoDimensions TVIVideoConstraintsSize480x360;
-		[Field ("TVIVideoConstraintsSize480x360", "__Internal")]
-		/*CMVideoDimensions*/ IntPtr TVIVideoConstraintsSize480x360 { get; }
-
-		// extern const CMVideoDimensions TVIVideoConstraintsSize640x480;
-		[Field ("TVIVideoConstraintsSize640x480", "__Internal")]
-		/*CMVideoDimensions*/ IntPtr TVIVideoConstraintsSize640x480 { get; }
-
-		// extern const CMVideoDimensions TVIVideoConstraintsSize960x540;
-		[Field ("TVIVideoConstraintsSize960x540", "__Internal")]
-		/*CMVideoDimensions*/ IntPtr TVIVideoConstraintsSize960x540 { get; }
-
-		// extern const CMVideoDimensions TVIVideoConstraintsSize1280x720;
-		[Field ("TVIVideoConstraintsSize1280x720", "__Internal")]
-		/*CMVideoDimensions*/ IntPtr TVIVideoConstraintsSize1280x720 { get; }
-
-		// extern const CMVideoDimensions TVIVideoConstraintsSize1280x960;
-		[Field ("TVIVideoConstraintsSize1280x960", "__Internal")]
-		/*CMVideoDimensions*/ IntPtr TVIVideoConstraintsSize1280x960 { get; }
-
-		// extern const NSUInteger TVIVideoConstraintsFrameRate30;
-		[Field ("TVIVideoConstraintsFrameRate30", "__Internal")]
-		nuint TVIVideoConstraintsFrameRate30 { get; }
-
-		// extern const NSUInteger TVIVideoConstraintsFrameRate24;
-		[Field ("TVIVideoConstraintsFrameRate24", "__Internal")]
-		nuint TVIVideoConstraintsFrameRate24 { get; }
-
-		// extern const NSUInteger TVIVideoConstraintsFrameRate20;
-		[Field ("TVIVideoConstraintsFrameRate20", "__Internal")]
-		nuint TVIVideoConstraintsFrameRate20 { get; }
-
-		// extern const NSUInteger TVIVideoConstraintsFrameRate15;
-		[Field ("TVIVideoConstraintsFrameRate15", "__Internal")]
-		nuint TVIVideoConstraintsFrameRate15 { get; }
-
-		// extern const NSUInteger TVIVideoConstraintsFrameRate10;
-		[Field ("TVIVideoConstraintsFrameRate10", "__Internal")]
-		nuint TVIVideoConstraintsFrameRate10 { get; }
-	}
-
-	// @protocol TVICameraCapturerDelegate <NSObject>
-	[Protocol, Model]
-	[BaseType (typeof(NSObject))]
-	interface TVICameraCapturerDelegate
-	{
-		// @optional -(void)cameraCapturer:(TVICameraCapturer * _Nonnull)capturer didStartWithSource:(TVICameraCaptureSource)source;
-		[Export ("cameraCapturer:didStartWithSource:")]
-		void CameraCapturer (TVICameraCapturer capturer, TVICameraCaptureSource source);
-
-		// @optional -(void)cameraCapturerWasInterrupted:(TVICameraCapturer * _Nonnull)capturer reason:(AVCaptureSessionInterruptionReason)reason;
-		[Export ("cameraCapturerWasInterrupted:reason:")]
-		void CameraCapturerWasInterrupted (TVICameraCapturer capturer, AVCaptureSessionInterruptionReason reason);
-
-		// @optional -(void)cameraCapturer:(TVICameraCapturer * _Nonnull)capturer didFailWithError:(NSError * _Nonnull)error;
-		[Export ("cameraCapturer:didFailWithError:")]
-		void CameraCapturer (TVICameraCapturer capturer, NSError error);
-	}
-
-	// @interface TVICameraCapturer : NSObject <TVIVideoCapturer>
-	[BaseType (typeof(NSObject))]
-	interface TVICameraCapturer : TVIVideoCapturer
-	{
-		// @property (readonly, assign, nonatomic) TVICameraCaptureSource source;
-		[Export ("source", ArgumentSemantic.Assign)]
-		TVICameraCaptureSource Source { get; }
-
-		// @property (readonly, getter = isCapturing, assign, atomic) BOOL capturing;
-		[Export ("capturing")]
-		bool Capturing { [Bind ("isCapturing")] get; }
-
-		[Wrap ("WeakDelegate")]
-		[NullAllowed]
-		TVICameraCapturerDelegate Delegate { get; set; }
-
-		// @property (nonatomic, weak) id<TVICameraCapturerDelegate> _Nullable delegate;
-		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
-		NSObject WeakDelegate { get; set; }
-
-		// @property (readonly, nonatomic, strong) TVICameraPreviewView * _Nonnull previewView;
-		[Export ("previewView", ArgumentSemantic.Strong)]
-		TVICameraPreviewView PreviewView { get; }
-
-		// @property (readonly, getter = isInterrupted, assign, nonatomic) BOOL interrupted;
-		[Export ("interrupted")]
-		bool Interrupted { [Bind ("isInterrupted")] get; }
-
-		// -(instancetype _Nullable)initWithSource:(TVICameraCaptureSource)source;
-		[Export ("initWithSource:")]
-		IntPtr Constructor (TVICameraCaptureSource source);
-
-		// -(instancetype _Nullable)initWithSource:(TVICameraCaptureSource)source delegate:(id<TVICameraCapturerDelegate> _Nullable)delegate;
-		[Export ("initWithSource:delegate:")]
-		IntPtr Constructor (TVICameraCaptureSource source, [NullAllowed] TVICameraCapturerDelegate @delegate);
-
-		// -(instancetype _Nullable)initWithSource:(TVICameraCaptureSource)source delegate:(id<TVICameraCapturerDelegate> _Nullable)delegate enablePreview:(BOOL)enablePreview;
-		[Export ("initWithSource:delegate:enablePreview:")]
-		IntPtr Constructor (TVICameraCaptureSource source, [NullAllowed] TVICameraCapturerDelegate @delegate, bool enablePreview);
-
-		// -(BOOL)selectSource:(TVICameraCaptureSource)source;
-		[Export ("selectSource:")]
-		bool SelectSource (TVICameraCaptureSource source);
-
-		// +(BOOL)isSourceAvailable:(TVICameraCaptureSource)source;
-		[Static]
-		[Export ("isSourceAvailable:")]
-		bool IsSourceAvailable (TVICameraCaptureSource source);
-
-		// +(NSArray<NSNumber *> * _Nonnull)availableSources;
-		[Static]
-		[Export ("availableSources")]
-		NSNumber[] AvailableSources { get; }
-	}
-
-	// @interface TVICameraPreviewView : UIView
-	[BaseType (typeof(UIView))]
-	interface TVICameraPreviewView
-	{
-		// @property (readonly, assign, nonatomic) UIInterfaceOrientation orientation;
-		[Export ("orientation", ArgumentSemantic.Assign)]
-		UIInterfaceOrientation Orientation { get; }
-
-		// @property (readonly, assign, nonatomic) CMVideoDimensions videoDimensions;
-		[Export ("videoDimensions", ArgumentSemantic.Assign)]
-		CMVideoDimensions VideoDimensions { get; }
-	}
-
 	// @protocol TVIVideoSink <NSObject>
 	[Protocol, Model]
 	[BaseType (typeof(NSObject))]
@@ -581,7 +475,7 @@ namespace Twilio.Video.iOS
     {
 
     }	
-
+	
 	// @protocol TVIVideoSource <NSObject>
 	[Protocol, Model]
 	[BaseType (typeof(NSObject))]
@@ -603,9 +497,11 @@ namespace Twilio.Video.iOS
 		void RequestOutputFormat (TVIVideoFormat outputFormat);
 	}
 
+	//[Static]
+	// [Verify (ConstantsInterfaceAssociation)]
 	partial interface Constants
 	{
-		// extern NSString *const _Nonnull kTVICameraSourceErrorDomain;
+		// extern NSString *const _Nonnull kTVICameraSourceErrorDomain __attribute__((swift_name("CameraSource.ErrorDomain")));
 		[Field ("kTVICameraSourceErrorDomain", "__Internal")]
 		NSString kTVICameraSourceErrorDomain { get; }
 	}
@@ -645,15 +541,15 @@ namespace Twilio.Video.iOS
 		[NullAllowed, Export ("previewView", ArgumentSemantic.Strong)]
 		TVICameraPreviewView PreviewView { get; }
 
-		// -(void)startCaptureWithDevice:(AVCaptureDevice * _Nonnull)device;
+		// -(void)startCaptureWithDevice:(AVCaptureDevice * _Nonnull)device __attribute__((swift_name("startCapture(device:)")));
 		[Export ("startCaptureWithDevice:")]
 		void StartCaptureWithDevice (AVCaptureDevice device);
 
-		// -(void)startCaptureWithDevice:(AVCaptureDevice * _Nonnull)device completion:(TVICameraSourceStartedBlock _Nullable)completion;
+		// -(void)startCaptureWithDevice:(AVCaptureDevice * _Nonnull)device completion:(TVICameraSourceStartedBlock _Nullable)completion __attribute__((swift_name("startCapture(device:completion:)")));
 		[Export ("startCaptureWithDevice:completion:")]
 		void StartCaptureWithDevice (AVCaptureDevice device, [NullAllowed] TVICameraSourceStartedBlock completion);
 
-		// -(void)startCaptureWithDevice:(AVCaptureDevice * _Nonnull)device format:(TVIVideoFormat * _Nonnull)format completion:(TVICameraSourceStartedBlock _Nullable)completion;
+		// -(void)startCaptureWithDevice:(AVCaptureDevice * _Nonnull)device format:(TVIVideoFormat * _Nonnull)format completion:(TVICameraSourceStartedBlock _Nullable)completion __attribute__((swift_name("startCapture(device:format:completion:)")));
 		[Export ("startCaptureWithDevice:format:completion:")]
 		void StartCaptureWithDevice (AVCaptureDevice device, TVIVideoFormat format, [NullAllowed] TVICameraSourceStartedBlock completion);
 
@@ -661,49 +557,38 @@ namespace Twilio.Video.iOS
 		[Export ("stopCapture")]
 		void StopCapture ();
 
-		// -(void)stopCaptureWithCompletion:(TVICameraSourceStoppedBlock _Nullable)completion;
+		// -(void)stopCaptureWithCompletion:(TVICameraSourceStoppedBlock _Nullable)completion __attribute__((swift_name("stopCapture(completion:)")));
 		[Export ("stopCaptureWithCompletion:")]
 		void StopCaptureWithCompletion ([NullAllowed] TVICameraSourceStoppedBlock completion);
 
-		// -(void)selectCaptureDevice:(AVCaptureDevice * _Nonnull)device;
+		// -(void)selectCaptureDevice:(AVCaptureDevice * _Nonnull)device __attribute__((swift_name("selectCaptureDevice(_:)")));
 		[Export ("selectCaptureDevice:")]
 		void SelectCaptureDevice (AVCaptureDevice device);
 
-		// -(void)selectCaptureDevice:(AVCaptureDevice * _Nonnull)device completion:(TVICameraSourceStartedBlock _Nullable)completion;
+		// -(void)selectCaptureDevice:(AVCaptureDevice * _Nonnull)device completion:(TVICameraSourceStartedBlock _Nullable)completion __attribute__((swift_name("selectCaptureDevice(_:completion:)")));
 		[Export ("selectCaptureDevice:completion:")]
 		void SelectCaptureDevice (AVCaptureDevice device, [NullAllowed] TVICameraSourceStartedBlock completion);
 
-		// -(void)selectCaptureDevice:(AVCaptureDevice * _Nonnull)device format:(TVIVideoFormat * _Nonnull)format completion:(TVICameraSourceStartedBlock _Nullable)completion;
+		// -(void)selectCaptureDevice:(AVCaptureDevice * _Nonnull)device format:(TVIVideoFormat * _Nonnull)format completion:(TVICameraSourceStartedBlock _Nullable)completion __attribute__((swift_name("selectCaptureDevice(_:format:completion:)")));
 		[Export ("selectCaptureDevice:format:completion:")]
 		void SelectCaptureDevice (AVCaptureDevice device, TVIVideoFormat format, [NullAllowed] TVICameraSourceStartedBlock completion);
 
-		// +(AVCaptureDevice * _Nullable)captureDeviceForPosition:(AVCaptureDevicePosition)position;
+		// +(AVCaptureDevice * _Nullable)captureDeviceForPosition:(AVCaptureDevicePosition)position __attribute__((swift_name("captureDevice(position:)")));
 		[Static]
 		[Export ("captureDeviceForPosition:")]
 		[return: NullAllowed]
 		AVCaptureDevice CaptureDeviceForPosition (AVCaptureDevicePosition position);
 
-		// +(AVCaptureDevice * _Nullable)captureDeviceForPosition:(AVCaptureDevicePosition)position type:(AVCaptureDeviceType _Nonnull)deviceType __attribute__((availability(ios, introduced=10.0)));
-		[iOS (10,0)]
+		// +(AVCaptureDevice * _Nullable)captureDeviceForPosition:(AVCaptureDevicePosition)position type:(AVCaptureDeviceType _Nonnull)deviceType __attribute__((swift_name("captureDevice(position:deviceType:)")));
 		[Static]
 		[Export ("captureDeviceForPosition:type:")]
 		[return: NullAllowed]
 		AVCaptureDevice CaptureDeviceForPosition (AVCaptureDevicePosition position, string deviceType);
 
-		// +(NSOrderedSet<TVIVideoFormat *> * _Nonnull)supportedFormatsForDevice:(AVCaptureDevice * _Nonnull)captureDevice;
+		// +(NSOrderedSet<TVIVideoFormat *> * _Nonnull)supportedFormatsForDevice:(AVCaptureDevice * _Nonnull)captureDevice __attribute__((swift_name("supportedFormats(captureDevice:)")));
 		[Static]
 		[Export ("supportedFormatsForDevice:")]
 		NSOrderedSet<TVIVideoFormat> SupportedFormatsForDevice (AVCaptureDevice captureDevice);
-	}
-
-	// @interface ManualOrientationControl (TVICameraSource)
-	[Category]
-	[BaseType (typeof(TVICameraSource))]
-	interface TVICameraSource_ManualOrientationControl
-	{
-		// -(void)updateVideoOrientation:(TVIVideoOrientation)orientation;
-		[Export ("updateVideoOrientation:")]
-		void UpdateVideoOrientation (TVIVideoOrientation orientation);
 	}
 
 	// @interface AVCaptureDeviceControl (TVICameraSource)
@@ -712,21 +597,21 @@ namespace Twilio.Video.iOS
 	interface TVICameraSource_AVCaptureDeviceControl
 	{
 		// @property (assign, nonatomic) float torchLevel;
-        [Export("torchLevel")]
+		[Export("torchLevel")]
         float GetTorchLevel();
 
         [Export("setTorchLevel:")]
         void SetTorchLevel(float torchLevel);
 
-        // @property (assign, nonatomic) AVCaptureTorchMode torchMode;
-        [Export("torchMode", ArgumentSemantic.Assign)]
+		// @property (assign, nonatomic) AVCaptureTorchMode torchMode;
+		[Export("torchMode", ArgumentSemantic.Assign)]
         AVCaptureTorchMode GetTorchMode();
 
         [Export("setTorchMode:", ArgumentSemantic.Assign)]
         void SetTorchMode(AVCaptureTorchMode torchMode);
 
-        // @property (assign, nonatomic) CGFloat zoomFactor;
-        [Export("zoomFactor")]
+		// @property (assign, nonatomic) CGFloat zoomFactor;
+		[Export("zoomFactor")]
         nfloat GetZoomFactor();
 
         [Export("setZoomFactor:")]
@@ -734,19 +619,19 @@ namespace Twilio.Video.iOS
 	}
 
 	// @protocol TVICameraSourceDelegate <NSObject>
-	[Protocol, Model]
+	[Protocol, Model (AutoGeneratedName = true)]
 	[BaseType (typeof(NSObject))]
 	interface TVICameraSourceDelegate
 	{
-		// @optional -(void)cameraSourceInterruptionEnded:(TVICameraSource * _Nonnull)source;
+		// @optional -(void)cameraSourceInterruptionEnded:(TVICameraSource * _Nonnull)source __attribute__((swift_name("cameraSourceInterruptionEnded(source:)")));
 		[Export ("cameraSourceInterruptionEnded:")]
 		void CameraSourceInterruptionEnded (TVICameraSource source);
 
-		// @optional -(void)cameraSourceWasInterrupted:(TVICameraSource * _Nonnull)source reason:(AVCaptureSessionInterruptionReason)reason;
+		// @optional -(void)cameraSourceWasInterrupted:(TVICameraSource * _Nonnull)source reason:(AVCaptureSessionInterruptionReason)reason __attribute__((swift_name("cameraSourceWasInterrupted(source:reason:)")));
 		[Export ("cameraSourceWasInterrupted:reason:")]
 		void CameraSourceWasInterrupted (TVICameraSource source, AVCaptureSessionInterruptionReason reason);
 
-		// @optional -(void)cameraSource:(TVICameraSource * _Nonnull)source didFailWithError:(NSError * _Nonnull)error;
+		// @optional -(void)cameraSource:(TVICameraSource * _Nonnull)source didFailWithError:(NSError * _Nonnull)error __attribute__((swift_name("cameraSourceDidFail(source:error:)")));
 		[Export ("cameraSource:didFailWithError:")]
 		void CameraSource (TVICameraSource source, NSError error);
 	}
@@ -756,17 +641,17 @@ namespace Twilio.Video.iOS
 	[DisableDefaultCtor]
 	interface TVICameraSourceOptionsBuilder
 	{
-		// @property (assign, nonatomic) BOOL enableManualOrientation;
-		[Export ("enableManualOrientation")]
-		bool EnableManualOrientation { get; set; }
+		// @property (nonatomic, strong) id<TVICameraSourceOrientationTracker> _Nonnull orientationTracker;
+		[Export ("orientationTracker", ArgumentSemantic.Strong)]
+		TVICameraSourceOrientationTracker OrientationTracker { get; set; }
 
 		// @property (assign, nonatomic) BOOL enablePreview;
 		[Export ("enablePreview")]
 		bool EnablePreview { get; set; }
 
-		// @property (assign, nonatomic) TVIVideoOrientation orientation;
-		[Export ("orientation", ArgumentSemantic.Assign)]
-		TVIVideoOrientation Orientation { get; set; }
+		// @property (assign, nonatomic) TVICameraSourceOptionsRotationTags rotationTags;
+		[Export ("rotationTags", ArgumentSemantic.Assign)]
+		TVICameraSourceOptionsRotationTags RotationTags { get; set; }
 
 		// @property (assign, nonatomic) CGFloat zoomFactor;
 		[Export ("zoomFactor")]
@@ -781,17 +666,17 @@ namespace Twilio.Video.iOS
 	[DisableDefaultCtor]
 	interface TVICameraSourceOptions
 	{
-		// @property (readonly, assign, nonatomic) BOOL enableManualOrientation;
-		[Export ("enableManualOrientation")]
-		bool EnableManualOrientation { get; }
+		// @property (readonly, nonatomic, strong) id<TVICameraSourceOrientationTracker> _Nonnull orientationTracker;
+		[Export ("orientationTracker", ArgumentSemantic.Strong)]
+		TVICameraSourceOrientationTracker OrientationTracker { get; }
 
 		// @property (readonly, assign, nonatomic) BOOL enablePreview;
 		[Export ("enablePreview")]
 		bool EnablePreview { get; }
 
-		// @property (readonly, assign, nonatomic) TVIVideoOrientation orientation;
-		[Export ("orientation", ArgumentSemantic.Assign)]
-		TVIVideoOrientation Orientation { get; }
+		// @property (readonly, assign, nonatomic) TVICameraSourceOptionsRotationTags rotationTags;
+		[Export ("rotationTags", ArgumentSemantic.Assign)]
+		TVICameraSourceOptionsRotationTags RotationTags { get; }
 
 		// @property (readonly, assign, nonatomic) CGFloat zoomFactor;
 		[Export ("zoomFactor")]
@@ -854,6 +739,10 @@ namespace Twilio.Video.iOS
 		[Export ("networkQualityEnabled")]
 		bool NetworkQualityEnabled { [Bind ("isNetworkQualityEnabled")] get; set; }
 
+		// @property (nonatomic, strong) TVINetworkQualityConfiguration * _Nullable networkQualityConfiguration;
+		[NullAllowed, Export ("networkQualityConfiguration", ArgumentSemantic.Strong)]
+		TVINetworkQualityConfiguration NetworkQualityConfiguration { get; set; }
+
 		// @property (copy, nonatomic) NSArray<TVIAudioCodec *> * _Nonnull preferredAudioCodecs;
 		[Export ("preferredAudioCodecs", ArgumentSemantic.Copy)]
 		TVIAudioCodec[] PreferredAudioCodecs { get; set; }
@@ -861,6 +750,10 @@ namespace Twilio.Video.iOS
 		// @property (copy, nonatomic) NSArray<TVIVideoCodec *> * _Nonnull preferredVideoCodecs;
 		[Export ("preferredVideoCodecs", ArgumentSemantic.Copy)]
 		TVIVideoCodec[] PreferredVideoCodecs { get; set; }
+
+		// @property (copy, nonatomic) NSString * _Nonnull region;
+		[Export ("region")]
+		string Region { get; set; }
 
 		// @property (copy, nonatomic) NSString * _Nullable roomName;
 		[NullAllowed, Export ("roomName")]
@@ -877,7 +770,7 @@ namespace Twilio.Video.iOS
 	interface TVIConnectOptionsBuilder_CallKit
 	{
 		// @property (nonatomic, strong) NSUUID * _Nullable uuid;
-        [NullAllowed, Export("uuid", ArgumentSemantic.Strong)]
+		[NullAllowed, Export("uuid", ArgumentSemantic.Strong)]
         NSUuid GetUuid();
 
         [NullAllowed, Export("setUuid:", ArgumentSemantic.Strong)]
@@ -932,6 +825,10 @@ namespace Twilio.Video.iOS
 		[Export ("networkQualityEnabled")]
 		bool NetworkQualityEnabled { [Bind ("isNetworkQualityEnabled")] get; }
 
+		// @property (readonly, nonatomic, strong) TVINetworkQualityConfiguration * _Nullable networkQualityConfiguration;
+		[NullAllowed, Export ("networkQualityConfiguration", ArgumentSemantic.Strong)]
+		TVINetworkQualityConfiguration NetworkQualityConfiguration { get; }
+
 		// @property (readonly, copy, nonatomic) NSArray<TVIAudioCodec *> * _Nonnull preferredAudioCodecs;
 		[Export ("preferredAudioCodecs", ArgumentSemantic.Copy)]
 		TVIAudioCodec[] PreferredAudioCodecs { get; }
@@ -939,6 +836,10 @@ namespace Twilio.Video.iOS
 		// @property (readonly, copy, nonatomic) NSArray<TVIVideoCodec *> * _Nonnull preferredVideoCodecs;
 		[Export ("preferredVideoCodecs", ArgumentSemantic.Copy)]
 		TVIVideoCodec[] PreferredVideoCodecs { get; }
+
+		// @property (readonly, copy, nonatomic) NSString * _Nonnull region;
+		[Export ("region")]
+		string Region { get; }
 
 		// @property (readonly, copy, nonatomic) NSString * _Nullable roomName;
 		[NullAllowed, Export ("roomName")]
@@ -965,7 +866,7 @@ namespace Twilio.Video.iOS
 	interface TVIConnectOptions_CallKit
 	{
 		// @property (readonly, nonatomic, strong) NSUUID * _Nullable uuid;
-		[NullAllowed, Export("uuid", ArgumentSemantic.Strong)]
+		[NullAllowed, Export ("uuid", ArgumentSemantic.Strong)]
 		NSUuid GetUuid();
 	}
 
@@ -991,13 +892,15 @@ namespace Twilio.Video.iOS
 		nuint MaxRetransmits { get; }
 	}
 
+	//[Static]
+	// [Verify (ConstantsInterfaceAssociation)]
 	partial interface Constants
 	{
-		// extern const int kTVIDataTrackOptionsDefaultMaxPacketLifeTime;
+		// extern const int kTVIDataTrackOptionsDefaultMaxPacketLifeTime __attribute__((swift_name("DataTrackOptions.DefaultMaxPacketLifeTime")));
 		[Field ("kTVIDataTrackOptionsDefaultMaxPacketLifeTime", "__Internal")]
 		int kTVIDataTrackOptionsDefaultMaxPacketLifeTime { get; }
 
-		// extern const int kTVIDataTrackOptionsDefaultMaxRetransmits;
+		// extern const int kTVIDataTrackOptionsDefaultMaxRetransmits __attribute__((swift_name("DataTrackOptions.DefaultMaxRetransmits")));
 		[Field ("kTVIDataTrackOptionsDefaultMaxRetransmits", "__Internal")]
 		int kTVIDataTrackOptionsDefaultMaxRetransmits { get; }
 	}
@@ -1112,9 +1015,11 @@ namespace Twilio.Video.iOS
 		nuint MaxVideoBitrate { get; }
 	}
 
+	//[Static]
+	// [Verify (ConstantsInterfaceAssociation)]
 	partial interface Constants
 	{
-		// extern NSString *const _Nonnull kTVIErrorDomain;
+		// extern NSString *const _Nonnull kTVIErrorDomain __attribute__((swift_name("TwilioVideoSDK.ErrorDomain")));
 		[Field ("kTVIErrorDomain", "__Internal")]
 		NSString kTVIErrorDomain { get; }
 	}
@@ -1499,6 +1404,10 @@ namespace Twilio.Video.iOS
 		[NullAllowed, Export ("sid")]
 		string Sid { get; }
 
+		// @property (readonly, assign, nonatomic) TVINetworkQualityLevel networkQualityLevel;
+		[Export ("networkQualityLevel", ArgumentSemantic.Assign)]
+		TVINetworkQualityLevel NetworkQualityLevel { get; }
+
 		// @property (readonly, copy, nonatomic) NSArray<TVIAudioTrackPublication *> * _Nonnull audioTracks;
 		[Export ("audioTracks", ArgumentSemantic.Copy)]
 		TVIAudioTrackPublication[] AudioTracks { get; }
@@ -1557,9 +1466,9 @@ namespace Twilio.Video.iOS
 		[Export ("localVideoTracks", ArgumentSemantic.Copy)]
 		TVILocalVideoTrackPublication[] LocalVideoTracks { get; }
 
-		// @property (readonly, assign, nonatomic) TVINetworkQualityLevel networkQualityLevel;
-		[Export ("networkQualityLevel", ArgumentSemantic.Assign)]
-		TVINetworkQualityLevel NetworkQualityLevel { get; }
+		// @property (readonly, copy, nonatomic) NSString * _Nonnull signalingRegion;
+		[Export ("signalingRegion")]
+		string SignalingRegion { get; }
 
 		// -(BOOL)publishAudioTrack:(TVILocalAudioTrack * _Nonnull)track;
 		[Export ("publishAudioTrack:")]
@@ -1591,35 +1500,35 @@ namespace Twilio.Video.iOS
 	}
 
 	// @protocol TVILocalParticipantDelegate <NSObject>
-	[Protocol, Model]
+	[Protocol, Model (AutoGeneratedName = true)]
 	[BaseType (typeof(NSObject))]
 	interface TVILocalParticipantDelegate
 	{
-		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant publishedAudioTrack:(TVILocalAudioTrackPublication * _Nonnull)publishedAudioTrack;
-		[Export ("localParticipant:publishedAudioTrack:")]
-		void PublishedAudioTrack (TVILocalParticipant participant, TVILocalAudioTrackPublication publishedAudioTrack);
+		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant didPublishAudioTrack:(TVILocalAudioTrackPublication * _Nonnull)audioTrackPublication __attribute__((swift_name("localParticipantDidPublishAudioTrack(participant:audioTrackPublication:)")));
+		[Export ("localParticipant:didPublishAudioTrack:")]
+		void DidPublishAudioTrack (TVILocalParticipant participant, TVILocalAudioTrackPublication audioTrackPublication);
 
-		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant failedToPublishAudioTrack:(TVILocalAudioTrack * _Nonnull)audioTrack withError:(NSError * _Nonnull)error;
-		[Export ("localParticipant:failedToPublishAudioTrack:withError:")]
-		void FailedToPublishAudioTrack (TVILocalParticipant participant, TVILocalAudioTrack audioTrack, NSError error);
+		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant didFailToPublishAudioTrack:(TVILocalAudioTrack * _Nonnull)audioTrack withError:(NSError * _Nonnull)error __attribute__((swift_name("localParticipantDidFailToPublishAudioTrack(participant:audioTrack:error:)")));
+		[Export ("localParticipant:didFailToPublishAudioTrack:withError:")]
+		void DidFailToPublishAudioTrack (TVILocalParticipant participant, TVILocalAudioTrack audioTrack, NSError error);
 
-		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant publishedDataTrack:(TVILocalDataTrackPublication * _Nonnull)publishedDataTrack;
-		[Export ("localParticipant:publishedDataTrack:")]
-		void PublishedDataTrack (TVILocalParticipant participant, TVILocalDataTrackPublication publishedDataTrack);
+		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant didPublishDataTrack:(TVILocalDataTrackPublication * _Nonnull)dataTrackPublication __attribute__((swift_name("localParticipantDidPublishDataTrack(participant:dataTrackPublication:)")));
+		[Export ("localParticipant:didPublishDataTrack:")]
+		void DidPublishDataTrack (TVILocalParticipant participant, TVILocalDataTrackPublication dataTrackPublication);
 
-		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant failedToPublishDataTrack:(TVILocalDataTrack * _Nonnull)dataTrack withError:(NSError * _Nonnull)error;
-		[Export ("localParticipant:failedToPublishDataTrack:withError:")]
-		void FailedToPublishDataTrack (TVILocalParticipant participant, TVILocalDataTrack dataTrack, NSError error);
+		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant didFailToPublishDataTrack:(TVILocalDataTrack * _Nonnull)dataTrack withError:(NSError * _Nonnull)error __attribute__((swift_name("localParticipantDidFailToPublishDataTrack(participant:dataTrack:error:)")));
+		[Export ("localParticipant:didFailToPublishDataTrack:withError:")]
+		void DidFailToPublishDataTrack (TVILocalParticipant participant, TVILocalDataTrack dataTrack, NSError error);
 
-		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant publishedVideoTrack:(TVILocalVideoTrackPublication * _Nonnull)publishedVideoTrack;
-		[Export ("localParticipant:publishedVideoTrack:")]
-		void PublishedVideoTrack (TVILocalParticipant participant, TVILocalVideoTrackPublication publishedVideoTrack);
+		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant didPublishVideoTrack:(TVILocalVideoTrackPublication * _Nonnull)videoTrackPublication __attribute__((swift_name("localParticipantDidPublishVideoTrack(participant:videoTrackPublication:)")));
+		[Export ("localParticipant:didPublishVideoTrack:")]
+		void DidPublishVideoTrack (TVILocalParticipant participant, TVILocalVideoTrackPublication videoTrackPublication);
 
-		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant failedToPublishVideoTrack:(TVILocalVideoTrack * _Nonnull)videoTrack withError:(NSError * _Nonnull)error;
-		[Export ("localParticipant:failedToPublishVideoTrack:withError:")]
-		void FailedToPublishVideoTrack (TVILocalParticipant participant, TVILocalVideoTrack videoTrack, NSError error);
+		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant didFailToPublishVideoTrack:(TVILocalVideoTrack * _Nonnull)videoTrack withError:(NSError * _Nonnull)error __attribute__((swift_name("localParticipantDidFailToPublishVideoTrack(participant:videoTrack:error:)")));
+		[Export ("localParticipant:didFailToPublishVideoTrack:withError:")]
+		void DidFailToPublishVideoTrack (TVILocalParticipant participant, TVILocalVideoTrack videoTrack, NSError error);
 
-		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant networkQualityLevelDidChange:(TVINetworkQualityLevel)networkQualityLevel;
+		// @optional -(void)localParticipant:(TVILocalParticipant * _Nonnull)participant networkQualityLevelDidChange:(TVINetworkQualityLevel)networkQualityLevel __attribute__((swift_name("localParticipantNetworkQualityLevelDidChange(participant:networkQualityLevel:)")));
 		[Export ("localParticipant:networkQualityLevelDidChange:")]
 		void NetworkQualityLevelDidChange (TVILocalParticipant participant, TVINetworkQualityLevel networkQualityLevel);
 	}
@@ -1650,26 +1559,6 @@ namespace Twilio.Video.iOS
 		// @property (getter = isEnabled, assign, nonatomic) BOOL enabled;
 		[Export ("enabled")]
 		bool Enabled { [Bind ("isEnabled")] get; set; }
-
-		// @property (readonly, nonatomic, strong) id<TVIVideoCapturer> _Nonnull capturer __attribute__((deprecated("TVIVideoCapturer is deprecated. Use TVIVideoSource instead.")));
-		[Export ("capturer", ArgumentSemantic.Strong)]
-		TVIVideoCapturer Capturer { get; }
-
-		// @property (readonly, nonatomic, strong) TVIVideoConstraints * _Nonnull constraints __attribute__((deprecated("Constraints are deprecated. You should use TVIVideoSource as a replacement for TVIVideoCapturer.")));
-		[Export ("constraints", ArgumentSemantic.Strong)]
-		TVIVideoConstraints Constraints { get; }
-
-		// +(instancetype _Nullable)trackWithCapturer:(id<TVIVideoCapturer> _Nonnull)capturer __attribute__((deprecated("Use trackWithSource: and provide a TVIVideoSource instead.")));
-		[Static]
-		[Export ("trackWithCapturer:")]
-		[return: NullAllowed]
-		TVILocalVideoTrack TrackWithCapturer (TVIVideoCapturer capturer);
-
-		// +(instancetype _Nullable)trackWithCapturer:(id<TVIVideoCapturer> _Nonnull)capturer enabled:(BOOL)enabled constraints:(TVIVideoConstraints * _Nullable)constraints name:(NSString * _Nullable)name __attribute__((deprecated("Use trackWithSource:enabled:name: and provide a TVIVideoSource instead.")));
-		[Static]
-		[Export ("trackWithCapturer:enabled:constraints:name:")]
-		[return: NullAllowed]
-		TVILocalVideoTrack TrackWithCapturer (TVIVideoCapturer capturer, bool enabled, [NullAllowed] TVIVideoConstraints constraints, [NullAllowed] string name);
 
 		// @property (readonly, nonatomic, strong) id<TVIVideoSource> _Nullable source;
 		[NullAllowed, Export ("source", ArgumentSemantic.Strong)]
@@ -1732,6 +1621,24 @@ namespace Twilio.Video.iOS
 		// @property (readonly, assign, nonatomic) uint32_t framesEncoded;
 		[Export ("framesEncoded")]
 		uint FramesEncoded { get; }
+	}
+
+	// @interface TVINetworkQualityConfiguration : NSObject
+	[BaseType (typeof(NSObject))]
+	interface TVINetworkQualityConfiguration
+	{
+		// @property (readonly, assign, nonatomic) TVINetworkQualityVerbosity local;
+		[Export ("local", ArgumentSemantic.Assign)]
+		TVINetworkQualityVerbosity Local { get; }
+
+		// @property (readonly, assign, nonatomic) TVINetworkQualityVerbosity remote;
+		[Export ("remote", ArgumentSemantic.Assign)]
+		TVINetworkQualityVerbosity Remote { get; }
+
+		// -(instancetype _Nullable)initWithLocalVerbosity:(TVINetworkQualityVerbosity)local remoteVerbosity:(TVINetworkQualityVerbosity)remote __attribute__((objc_designated_initializer));
+		[Export ("initWithLocalVerbosity:remoteVerbosity:")]
+		[DesignatedInitializer]
+		IntPtr Constructor (TVINetworkQualityVerbosity local, TVINetworkQualityVerbosity remote);
 	}
 
 	// @interface TVIOpusCodec : TVIAudioCodec
@@ -1827,15 +1734,15 @@ namespace Twilio.Video.iOS
 	}
 
 	// @protocol TVIRemoteDataTrackDelegate <NSObject>
-	[Protocol, Model]
+	[Protocol, Model (AutoGeneratedName = true)]
 	[BaseType (typeof(NSObject))]
 	interface TVIRemoteDataTrackDelegate
 	{
-		// @optional -(void)remoteDataTrack:(TVIRemoteDataTrack * _Nonnull)remoteDataTrack didReceiveString:(NSString * _Nonnull)message;
+		// @optional -(void)remoteDataTrack:(TVIRemoteDataTrack * _Nonnull)remoteDataTrack didReceiveString:(NSString * _Nonnull)message __attribute__((swift_name("remoteDataTrackDidReceiveString(remoteDataTrack:message:)")));
 		[Export ("remoteDataTrack:didReceiveString:")]
 		void DidReceiveString (TVIRemoteDataTrack remoteDataTrack, string message);
 
-		// @optional -(void)remoteDataTrack:(TVIRemoteDataTrack * _Nonnull)remoteDataTrack didReceiveData:(NSData * _Nonnull)message;
+		// @optional -(void)remoteDataTrack:(TVIRemoteDataTrack * _Nonnull)remoteDataTrack didReceiveData:(NSData * _Nonnull)message __attribute__((swift_name("remoteDataTrackDidReceiveData(remoteDataTrack:message:)")));
 		[Export ("remoteDataTrack:didReceiveData:")]
 		void DidReceiveData (TVIRemoteDataTrack remoteDataTrack, NSData message);
 	}
@@ -1885,85 +1792,89 @@ namespace Twilio.Video.iOS
 	}
 
 	// @protocol TVIRemoteParticipantDelegate <NSObject>
-	[Protocol, Model]
+	[Protocol, Model (AutoGeneratedName = true)]
 	[BaseType (typeof(NSObject))]
 	interface TVIRemoteParticipantDelegate
 	{
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant publishedVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:publishedVideoTrack:")]
-		void RemoteParticipantPublishedVideoTrack(TVIRemoteParticipant participant, TVIRemoteVideoTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didPublishVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidPublishVideoTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didPublishVideoTrack:")]
+		void RemoteParticipantDidPublishVideoTrack (TVIRemoteParticipant participant, TVIRemoteVideoTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant unpublishedVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:unpublishedVideoTrack:")]
-		void RemoteParticipantUnpublishedVideoTrack(TVIRemoteParticipant participant, TVIRemoteVideoTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didUnpublishVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidUnpublishVideoTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didUnpublishVideoTrack:")]
+		void RemoteParticipantDidUnpublishVideoTrack (TVIRemoteParticipant participant, TVIRemoteVideoTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant publishedAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:publishedAudioTrack:")]
-		void RemoteParticipantPublishedAudioTrack(TVIRemoteParticipant participant, TVIRemoteAudioTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didPublishAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidPublishAudioTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didPublishAudioTrack:")]
+		void RemoteParticipantDidPublishAudioTrack (TVIRemoteParticipant participant, TVIRemoteAudioTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant unpublishedAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:unpublishedAudioTrack:")]
-		void RemoteParticipantUnpublishedAudioTrack(TVIRemoteParticipant participant, TVIRemoteAudioTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didUnpublishAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidUnpublishAudioTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didUnpublishAudioTrack:")]
+		void RemoteParticipantDidUnpublishAudioTrack (TVIRemoteParticipant participant, TVIRemoteAudioTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant publishedDataTrack:(TVIRemoteDataTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:publishedDataTrack:")]
-		void RemoteParticipantPublishedDataTrack(TVIRemoteParticipant participant, TVIRemoteDataTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didPublishDataTrack:(TVIRemoteDataTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidPublishDataTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didPublishDataTrack:")]
+		void RemoteParticipantDidPublishDataTrack (TVIRemoteParticipant participant, TVIRemoteDataTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant unpublishedDataTrack:(TVIRemoteDataTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:unpublishedDataTrack:")]
-		void RemoteParticipantUnpublishedDataTrack(TVIRemoteParticipant participant, TVIRemoteDataTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didUnpublishDataTrack:(TVIRemoteDataTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidUnpublishDataTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didUnpublishDataTrack:")]
+		void RemoteParticipantDidUnpublishDataTrack (TVIRemoteParticipant participant, TVIRemoteDataTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant enabledVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:enabledVideoTrack:")]
-		void RemoteParticipantEnabledVideoTrack(TVIRemoteParticipant participant, TVIRemoteVideoTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didEnableVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidEnableVideoTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didEnableVideoTrack:")]
+		void RemoteParticipantDidEnableVideoTrack (TVIRemoteParticipant participant, TVIRemoteVideoTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant disabledVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:disabledVideoTrack:")]
-		void RemoteParticipantDisabledVideoTrack(TVIRemoteParticipant participant, TVIRemoteVideoTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didDisableVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidDisableVideoTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didDisableVideoTrack:")]
+		void RemoteParticipantDidDisableVideoTrack (TVIRemoteParticipant participant, TVIRemoteVideoTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant enabledAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:enabledAudioTrack:")]
-		void RemoteParticipantEnabledAudioTrack(TVIRemoteParticipant participant, TVIRemoteAudioTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didEnableAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidEnableAudioTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didEnableAudioTrack:")]
+		void RemoteParticipantDidEnableAudioTrack (TVIRemoteParticipant participant, TVIRemoteAudioTrackPublication publication);
 
-		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant disabledAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication;
-		[Export ("remoteParticipant:disabledAudioTrack:")]
-		void RemoteParticipantDisabledAudioTrack(TVIRemoteParticipant participant, TVIRemoteAudioTrackPublication publication);
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant didDisableAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication __attribute__((swift_name("remoteParticipantDidDisableAudioTrack(participant:publication:)")));
+		[Export ("remoteParticipant:didDisableAudioTrack:")]
+		void RemoteParticipantDidDisableAudioTrack (TVIRemoteParticipant participant, TVIRemoteAudioTrackPublication publication);
 
-		// @optional -(void)subscribedToVideoTrack:(TVIRemoteVideoTrack * _Nonnull)videoTrack publication:(TVIRemoteVideoTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("subscribedToVideoTrack:publication:forParticipant:")]
-		void SubscribedToVideoTrack (TVIRemoteVideoTrack videoTrack, TVIRemoteVideoTrackPublication publication, TVIRemoteParticipant participant);
+		// @optional -(void)didSubscribeToVideoTrack:(TVIRemoteVideoTrack * _Nonnull)videoTrack publication:(TVIRemoteVideoTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didSubscribeToVideoTrack(videoTrack:publication:participant:)")));
+		[Export ("didSubscribeToVideoTrack:publication:forParticipant:")]
+		void DidSubscribeToVideoTrack (TVIRemoteVideoTrack videoTrack, TVIRemoteVideoTrackPublication publication, TVIRemoteParticipant participant);
 
-		// @optional -(void)failedToSubscribeToVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication error:(NSError * _Nonnull)error forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("failedToSubscribeToVideoTrack:error:forParticipant:")]
-		void FailedToSubscribeToVideoTrack (TVIRemoteVideoTrackPublication publication, NSError error, TVIRemoteParticipant participant);
+		// @optional -(void)didFailToSubscribeToVideoTrack:(TVIRemoteVideoTrackPublication * _Nonnull)publication error:(NSError * _Nonnull)error forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didFailToSubscribeToVideoTrack(publication:error:participant:)")));
+		[Export ("didFailToSubscribeToVideoTrack:error:forParticipant:")]
+		void DidFailToSubscribeToVideoTrack (TVIRemoteVideoTrackPublication publication, NSError error, TVIRemoteParticipant participant);
 
-		// @optional -(void)unsubscribedFromVideoTrack:(TVIRemoteVideoTrack * _Nonnull)videoTrack publication:(TVIRemoteVideoTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("unsubscribedFromVideoTrack:publication:forParticipant:")]
-		void UnsubscribedFromVideoTrack (TVIRemoteVideoTrack videoTrack, TVIRemoteVideoTrackPublication publication, TVIRemoteParticipant participant);
+		// @optional -(void)didUnsubscribeFromVideoTrack:(TVIRemoteVideoTrack * _Nonnull)videoTrack publication:(TVIRemoteVideoTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didUnsubscribeFromVideoTrack(videoTrack:publication:participant:)")));
+		[Export ("didUnsubscribeFromVideoTrack:publication:forParticipant:")]
+		void DidUnsubscribeFromVideoTrack (TVIRemoteVideoTrack videoTrack, TVIRemoteVideoTrackPublication publication, TVIRemoteParticipant participant);
 
-		// @optional -(void)subscribedToAudioTrack:(TVIRemoteAudioTrack * _Nonnull)audioTrack publication:(TVIRemoteAudioTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("subscribedToAudioTrack:publication:forParticipant:")]
-		void SubscribedToAudioTrack (TVIRemoteAudioTrack audioTrack, TVIRemoteAudioTrackPublication publication, TVIRemoteParticipant participant);
+		// @optional -(void)didSubscribeToAudioTrack:(TVIRemoteAudioTrack * _Nonnull)audioTrack publication:(TVIRemoteAudioTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didSubscribeToAudioTrack(audioTrack:publication:participant:)")));
+		[Export ("didSubscribeToAudioTrack:publication:forParticipant:")]
+		void DidSubscribeToAudioTrack (TVIRemoteAudioTrack audioTrack, TVIRemoteAudioTrackPublication publication, TVIRemoteParticipant participant);
 
-		// @optional -(void)failedToSubscribeToAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication error:(NSError * _Nonnull)error forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("failedToSubscribeToAudioTrack:error:forParticipant:")]
-		void FailedToSubscribeToAudioTrack (TVIRemoteAudioTrackPublication publication, NSError error, TVIRemoteParticipant participant);
+		// @optional -(void)didFailToSubscribeToAudioTrack:(TVIRemoteAudioTrackPublication * _Nonnull)publication error:(NSError * _Nonnull)error forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didFailToSubscribeToAudioTrack(publication:error:participant:)")));
+		[Export ("didFailToSubscribeToAudioTrack:error:forParticipant:")]
+		void DidFailToSubscribeToAudioTrack (TVIRemoteAudioTrackPublication publication, NSError error, TVIRemoteParticipant participant);
 
-		// @optional -(void)unsubscribedFromAudioTrack:(TVIRemoteAudioTrack * _Nonnull)audioTrack publication:(TVIRemoteAudioTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("unsubscribedFromAudioTrack:publication:forParticipant:")]
-		void UnsubscribedFromAudioTrack (TVIRemoteAudioTrack audioTrack, TVIRemoteAudioTrackPublication publication, TVIRemoteParticipant participant);
+		// @optional -(void)didUnsubscribeFromAudioTrack:(TVIRemoteAudioTrack * _Nonnull)audioTrack publication:(TVIRemoteAudioTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didUnsubscribeFromAudioTrack(audioTrack:publication:participant:)")));
+		[Export ("didUnsubscribeFromAudioTrack:publication:forParticipant:")]
+		void DidUnsubscribeFromAudioTrack (TVIRemoteAudioTrack audioTrack, TVIRemoteAudioTrackPublication publication, TVIRemoteParticipant participant);
 
-		// @optional -(void)subscribedToDataTrack:(TVIRemoteDataTrack * _Nonnull)dataTrack publication:(TVIRemoteDataTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("subscribedToDataTrack:publication:forParticipant:")]
-		void SubscribedToDataTrack (TVIRemoteDataTrack dataTrack, TVIRemoteDataTrackPublication publication, TVIRemoteParticipant participant);
+		// @optional -(void)didSubscribeToDataTrack:(TVIRemoteDataTrack * _Nonnull)dataTrack publication:(TVIRemoteDataTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didSubscribeToDataTrack(dataTrack:publication:participant:)")));
+		[Export ("didSubscribeToDataTrack:publication:forParticipant:")]
+		void DidSubscribeToDataTrack (TVIRemoteDataTrack dataTrack, TVIRemoteDataTrackPublication publication, TVIRemoteParticipant participant);
 
-		// @optional -(void)failedToSubscribeToDataTrack:(TVIRemoteDataTrackPublication * _Nonnull)publication error:(NSError * _Nonnull)error forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("failedToSubscribeToDataTrack:error:forParticipant:")]
-		void FailedToSubscribeToDataTrack (TVIRemoteDataTrackPublication publication, NSError error, TVIRemoteParticipant participant);
+		// @optional -(void)didFailToSubscribeToDataTrack:(TVIRemoteDataTrackPublication * _Nonnull)publication error:(NSError * _Nonnull)error forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didFailToSubscribeToDataTrack(publication:error:participant:)")));
+		[Export ("didFailToSubscribeToDataTrack:error:forParticipant:")]
+		void DidFailToSubscribeToDataTrack (TVIRemoteDataTrackPublication publication, NSError error, TVIRemoteParticipant participant);
 
-		// @optional -(void)unsubscribedFromDataTrack:(TVIRemoteDataTrack * _Nonnull)dataTrack publication:(TVIRemoteDataTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant;
-		[Export ("unsubscribedFromDataTrack:publication:forParticipant:")]
-		void UnsubscribedFromDataTrack (TVIRemoteDataTrack dataTrack, TVIRemoteDataTrackPublication publication, TVIRemoteParticipant participant);
+		// @optional -(void)didUnsubscribeFromDataTrack:(TVIRemoteDataTrack * _Nonnull)dataTrack publication:(TVIRemoteDataTrackPublication * _Nonnull)publication forParticipant:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("didUnsubscribeFromDataTrack(dataTrack:publication:participant:)")));
+		[Export ("didUnsubscribeFromDataTrack:publication:forParticipant:")]
+		void DidUnsubscribeFromDataTrack (TVIRemoteDataTrack dataTrack, TVIRemoteDataTrackPublication publication, TVIRemoteParticipant participant);
+
+		// @optional -(void)remoteParticipant:(TVIRemoteParticipant * _Nonnull)participant networkQualityLevelDidChange:(TVINetworkQualityLevel)networkQualityLevel __attribute__((swift_name("remoteParticipantNetworkQualityLevelDidChange(participant:networkQualityLevel:)")));
+		[Export ("remoteParticipant:networkQualityLevelDidChange:")]
+		void RemoteParticipantNetworkQualityLevelDidChange (TVIRemoteParticipant participant, TVINetworkQualityLevel networkQualityLevel);
 	}
 
 	// @interface TVIRemoteVideoTrack : TVIVideoTrack
@@ -2020,9 +1931,17 @@ namespace Twilio.Video.iOS
 		[NullAllowed, Export ("delegate", ArgumentSemantic.Weak)]
 		NSObject WeakDelegate { get; set; }
 
+		// @property (readonly, nonatomic, strong) TVIRemoteParticipant * _Nullable dominantSpeaker;
+		[NullAllowed, Export ("dominantSpeaker", ArgumentSemantic.Strong)]
+		TVIRemoteParticipant DominantSpeaker { get; }
+
 		// @property (readonly, nonatomic, strong) TVILocalParticipant * _Nullable localParticipant;
 		[NullAllowed, Export ("localParticipant", ArgumentSemantic.Strong)]
 		TVILocalParticipant LocalParticipant { get; }
+
+		// @property (readonly, copy, nonatomic) NSString * _Nullable mediaRegion;
+		[NullAllowed, Export ("mediaRegion")]
+		string MediaRegion { get; }
 
 		// @property (readonly, copy, nonatomic) NSString * _Nonnull name;
 		[Export ("name")]
@@ -2044,11 +1963,7 @@ namespace Twilio.Video.iOS
 		[Export ("state", ArgumentSemantic.Assign)]
 		TVIRoomState State { get; }
 
-		// @property (readonly, nonatomic, strong) TVIRemoteParticipant * _Nullable dominantSpeaker;
-		[NullAllowed, Export ("dominantSpeaker", ArgumentSemantic.Strong)]
-		TVIRemoteParticipant DominantSpeaker { get; }
-
-		// -(TVIRemoteParticipant * _Nullable)getRemoteParticipantWithSid:(NSString * _Nonnull)sid;
+		// -(TVIRemoteParticipant * _Nullable)getRemoteParticipantWithSid:(NSString * _Nonnull)sid __attribute__((swift_name("getRemoteParticipant(sid:)")));
 		[Export ("getRemoteParticipantWithSid:")]
 		[return: NullAllowed]
 		TVIRemoteParticipant GetRemoteParticipantWithSid (string sid);
@@ -2057,7 +1972,7 @@ namespace Twilio.Video.iOS
 		[Export ("disconnect")]
 		void Disconnect ();
 
-		// -(void)getStatsWithBlock:(TVIRoomGetStatsBlock _Nonnull)block;
+		// -(void)getStatsWithBlock:(TVIRoomGetStatsBlock _Nonnull)block __attribute__((swift_name("getStats(_:)")));
 		[Export ("getStatsWithBlock:")]
 		void GetStatsWithBlock (TVIRoomGetStatsBlock block);
 	}
@@ -2068,68 +1983,54 @@ namespace Twilio.Video.iOS
 	interface TVIRoom_CallKit
 	{
 		// @property (readonly, nonatomic) NSUUID * _Nullable uuid;
-		[NullAllowed, Export("uuid")]
+		[NullAllowed, Export ("uuid")]
 		NSUuid GetUuid();
 	}
 
 	// @protocol TVIRoomDelegate <NSObject>
-	[Protocol, Model]
+	[Protocol, Model (AutoGeneratedName = true)]
 	[BaseType (typeof(NSObject))]
 	interface TVIRoomDelegate
 	{
-		// @optional -(void)didConnectToRoom:(TVIRoom * _Nonnull)room;
+		// @optional -(void)didConnectToRoom:(TVIRoom * _Nonnull)room __attribute__((swift_name("roomDidConnect(room:)")));
 		[Export ("didConnectToRoom:")]
 		void DidConnectToRoom (TVIRoom room);
 
-		// @optional -(void)room:(TVIRoom * _Nonnull)room didFailToConnectWithError:(NSError * _Nonnull)error;
+		// @optional -(void)room:(TVIRoom * _Nonnull)room didFailToConnectWithError:(NSError * _Nonnull)error __attribute__((swift_name("roomDidFailToConnect(room:error:)")));
 		[Export ("room:didFailToConnectWithError:")]
-		void RoomDidFailToConnectWithError(TVIRoom room, NSError error);
+		void RoomDidFailToConnectWithError (TVIRoom room, NSError error);
 
-		// @optional -(void)room:(TVIRoom * _Nonnull)room didDisconnectWithError:(NSError * _Nullable)error;
+		// @optional -(void)room:(TVIRoom * _Nonnull)room didDisconnectWithError:(NSError * _Nullable)error __attribute__((swift_name("roomDidDisconnect(room:error:)")));
 		[Export ("room:didDisconnectWithError:")]
-		void RoomDidDisconnectWithError(TVIRoom room, [NullAllowed] NSError error);
+		void RoomDidDisconnectWithError (TVIRoom room, [NullAllowed] NSError error);
 
-		// @optional -(void)room:(TVIRoom * _Nonnull)room isReconnectingWithError:(NSError * _Nonnull)error;
+		// @optional -(void)room:(TVIRoom * _Nonnull)room isReconnectingWithError:(NSError * _Nonnull)error __attribute__((swift_name("roomIsReconnecting(room:error:)")));
 		[Export ("room:isReconnectingWithError:")]
-		void RoomIsReconnectingWithError(TVIRoom room, NSError error);
+		void RoomIsReconnectingWithError (TVIRoom room, NSError error);
 
-		// @optional -(void)didReconnectToRoom:(TVIRoom * _Nonnull)room;
+		// @optional -(void)didReconnectToRoom:(TVIRoom * _Nonnull)room __attribute__((swift_name("roomDidReconnect(room:)")));
 		[Export ("didReconnectToRoom:")]
 		void DidReconnectToRoom (TVIRoom room);
 
-		// @optional -(void)room:(TVIRoom * _Nonnull)room participantDidConnect:(TVIRemoteParticipant * _Nonnull)participant;
+		// @optional -(void)room:(TVIRoom * _Nonnull)room participantDidConnect:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("participantDidConnect(room:participant:)")));
 		[Export ("room:participantDidConnect:")]
-		void RoomParticipantDidConnect(TVIRoom room, TVIRemoteParticipant participant);
+		void RoomParticipantDidConnect (TVIRoom room, TVIRemoteParticipant participant);
 
-		// @optional -(void)room:(TVIRoom * _Nonnull)room participantDidDisconnect:(TVIRemoteParticipant * _Nonnull)participant;
+		// @optional -(void)room:(TVIRoom * _Nonnull)room participantDidDisconnect:(TVIRemoteParticipant * _Nonnull)participant __attribute__((swift_name("participantDidDisconnect(room:participant:)")));
 		[Export ("room:participantDidDisconnect:")]
-		void RoomParticipantDidDisconnect(TVIRoom room, TVIRemoteParticipant participant);
+		void RoomParticipantDidDisconnect (TVIRoom room, TVIRemoteParticipant participant);
 
-		// @optional -(void)roomDidStartRecording:(TVIRoom * _Nonnull)room;
+		// @optional -(void)roomDidStartRecording:(TVIRoom * _Nonnull)room __attribute__((swift_name("roomDidStartRecording(room:)")));
 		[Export ("roomDidStartRecording:")]
 		void RoomDidStartRecording (TVIRoom room);
 
-		// @optional -(void)roomDidStopRecording:(TVIRoom * _Nonnull)room;
+		// @optional -(void)roomDidStopRecording:(TVIRoom * _Nonnull)room __attribute__((swift_name("roomDidStopRecording(room:)")));
 		[Export ("roomDidStopRecording:")]
 		void RoomDidStopRecording (TVIRoom room);
 
-		// @optional -(void)room:(TVIRoom * _Nonnull)room dominantSpeakerDidChange:(TVIRemoteParticipant * _Nullable)participant;
+		// @optional -(void)room:(TVIRoom * _Nonnull)room dominantSpeakerDidChange:(TVIRemoteParticipant * _Nullable)participant __attribute__((swift_name("dominantSpeakerDidChange(room:participant:)")));
 		[Export ("room:dominantSpeakerDidChange:")]
-		void RoomDominantSpeakerDidChange(TVIRoom room, [NullAllowed] TVIRemoteParticipant participant);
-	}
-
-	// @interface TVIScreenCapturer : NSObject <TVIVideoCapturer>
-	[BaseType (typeof(NSObject))]
-	[DisableDefaultCtor]
-	interface TVIScreenCapturer : TVIVideoCapturer
-	{
-		// @property (readonly, getter = isCapturing, assign, atomic) BOOL capturing;
-		[Export ("capturing")]
-		bool Capturing { [Bind ("isCapturing")] get; }
-
-		// -(instancetype _Null_unspecified)initWithView:(UIView * _Nonnull)view;
-		[Export ("initWithView:")]
-		IntPtr Constructor (UIView view);
+		void RoomDominantSpeakerDidChange (TVIRoom room, [NullAllowed] TVIRemoteParticipant participant);
 	}
 
 	// @interface TVIStatsReport : NSObject
@@ -2166,110 +2067,11 @@ namespace Twilio.Video.iOS
 		TVIIceCandidatePairStats[] IceCandidatePairStats { get; }
 	}
 
-	partial interface Constants
-	{
-		// extern const NSUInteger TVIVideoConstraintsMaximumFPS;
-		[Field ("TVIVideoConstraintsMaximumFPS", "__Internal")]
-		nuint TVIVideoConstraintsMaximumFPS { get; }
-
-		// extern const NSUInteger TVIVideoConstraintsMinimumFPS;
-		[Field ("TVIVideoConstraintsMinimumFPS", "__Internal")]
-		nuint TVIVideoConstraintsMinimumFPS { get; }
-
-		// extern const CMVideoDimensions TVIVideoConstraintsSizeNone;
-		[Field ("TVIVideoConstraintsSizeNone", "__Internal")]
-		/*CMVideoDimensions*/ IntPtr TVIVideoConstraintsSizeNone { get; }
-
-		// extern const NSUInteger TVIVideoConstraintsFrameRateNone;
-		[Field ("TVIVideoConstraintsFrameRateNone", "__Internal")]
-		nuint TVIVideoConstraintsFrameRateNone { get; }
-
-		// extern const TVIAspectRatio TVIVideoConstraintsAspectRatioNone;
-		[Field ("TVIVideoConstraintsAspectRatioNone", "__Internal")]
-		/*TVIAspectRatio*/ IntPtr TVIVideoConstraintsAspectRatioNone { get; }
-
-		// extern const TVIAspectRatio TVIAspectRatio11x9;
-		[Field ("TVIAspectRatio11x9", "__Internal")]
-		/*TVIAspectRatio*/ IntPtr TVIAspectRatio11x9 { get; }
-
-		// extern const TVIAspectRatio TVIAspectRatio4x3;
-		[Field ("TVIAspectRatio4x3", "__Internal")]
-		/*TVIAspectRatio*/ IntPtr TVIAspectRatio4x3 { get; }
-
-		// extern const TVIAspectRatio TVIAspectRatio16x9;
-		[Field ("TVIAspectRatio16x9", "__Internal")]
-		/*TVIAspectRatio*/ IntPtr TVIAspectRatio16x9 { get; }
-	}
-
-	// @interface TVIVideoConstraintsBuilder : NSObject
-	[BaseType (typeof(NSObject))]
-	[DisableDefaultCtor]
-	interface TVIVideoConstraintsBuilder
-	{
-		// @property (assign, nonatomic) CMVideoDimensions maxSize;
-		[Export ("maxSize", ArgumentSemantic.Assign)]
-		CMVideoDimensions MaxSize { get; set; }
-
-		// @property (assign, nonatomic) CMVideoDimensions minSize;
-		[Export ("minSize", ArgumentSemantic.Assign)]
-		CMVideoDimensions MinSize { get; set; }
-
-		// @property (assign, nonatomic) NSUInteger maxFrameRate;
-		[Export ("maxFrameRate")]
-		nuint MaxFrameRate { get; set; }
-
-		// @property (assign, nonatomic) NSUInteger minFrameRate;
-		[Export ("minFrameRate")]
-		nuint MinFrameRate { get; set; }
-
-		// @property (assign, nonatomic) TVIAspectRatio aspectRatio;
-		[Export ("aspectRatio", ArgumentSemantic.Assign)]
-		TVIAspectRatio AspectRatio { get; set; }
-	}
-
-	// typedef void (^TVIVideoConstraintsBuilderBlock)(TVIVideoConstraintsBuilder * _Nonnull);
-	delegate void TVIVideoConstraintsBuilderBlock (TVIVideoConstraintsBuilder arg0);
-
-	// @interface TVIVideoConstraints : NSObject
-	[BaseType (typeof(NSObject))]
-	interface TVIVideoConstraints
-	{
-		// +(instancetype _Null_unspecified)constraints;
-		[Static]
-		[Export ("constraints")]
-		TVIVideoConstraints Constraints ();
-
-		// +(instancetype _Null_unspecified)constraintsWithBlock:(TVIVideoConstraintsBuilderBlock _Nonnull)builderBlock;
-		[Static]
-		[Export ("constraintsWithBlock:")]
-		TVIVideoConstraints ConstraintsWithBlock (TVIVideoConstraintsBuilderBlock builderBlock);
-
-		// @property (readonly, assign, nonatomic) CMVideoDimensions maxSize;
-		[Export ("maxSize", ArgumentSemantic.Assign)]
-		CMVideoDimensions MaxSize { get; }
-
-		// @property (readonly, assign, nonatomic) CMVideoDimensions minSize;
-		[Export ("minSize", ArgumentSemantic.Assign)]
-		CMVideoDimensions MinSize { get; }
-
-		// @property (readonly, assign, nonatomic) NSUInteger maxFrameRate;
-		[Export ("maxFrameRate")]
-		nuint MaxFrameRate { get; }
-
-		// @property (readonly, assign, nonatomic) NSUInteger minFrameRate;
-		[Export ("minFrameRate")]
-		nuint MinFrameRate { get; }
-
-		// @property (readonly, assign, nonatomic) TVIAspectRatio aspectRatio;
-		[Export ("aspectRatio", ArgumentSemantic.Assign)]
-		TVIAspectRatio AspectRatio { get; }
-	}
-
-   	interface ITVIVideoRenderer : TVIVideoRenderer
+	interface ITVIVideoRenderer : TVIVideoRenderer
     {
 
     }
-
+	
 	// @protocol TVIVideoRenderer <NSObject>
 	[Protocol, Model]
 	[BaseType (typeof(NSObject))]
@@ -2285,31 +2087,27 @@ namespace Twilio.Video.iOS
 		[Export ("updateVideoSize:orientation:")]
 		void UpdateVideoSize (CMVideoDimensions videoSize, TVIVideoOrientation orientation);
 
-		// @optional @property (readonly, copy, nonatomic) NSArray<NSNumber *> * _Nonnull optionalPixelFormats;
-		[Export ("optionalPixelFormats", ArgumentSemantic.Copy)]
-		NSNumber[] OptionalPixelFormats { get; }
-
 		// @optional -(void)invalidateRenderer;
 		[Export ("invalidateRenderer")]
 		void InvalidateRenderer ();
 	}
 
 	// @protocol TVIVideoViewDelegate <NSObject>
-	[Protocol, Model]
+	[Protocol, Model (AutoGeneratedName = true)]
 	[BaseType (typeof(NSObject))]
 	interface TVIVideoViewDelegate
 	{
-		// @optional -(void)videoViewDidReceiveData:(TVIVideoView * _Nonnull)view;
+		// @optional -(void)videoViewDidReceiveData:(TVIVideoView * _Nonnull)view __attribute__((swift_name("videoViewDidReceiveData(view:)")));
 		[Export ("videoViewDidReceiveData:")]
 		void VideoViewDidReceiveData (TVIVideoView view);
 
-		// @optional -(void)videoView:(TVIVideoView * _Nonnull)view videoDimensionsDidChange:(CMVideoDimensions)dimensions;
+		// @optional -(void)videoView:(TVIVideoView * _Nonnull)view videoDimensionsDidChange:(CMVideoDimensions)dimensions __attribute__((swift_name("videoViewDimensionsDidChange(view:dimensions:)")));
 		[Export ("videoView:videoDimensionsDidChange:")]
-		void VideoView (TVIVideoView view, CMVideoDimensions dimensions);
+		void VideoViewVideoDimensionsDidChange (TVIVideoView view, CMVideoDimensions dimensions);
 
-		// @optional -(void)videoView:(TVIVideoView * _Nonnull)view videoOrientationDidChange:(TVIVideoOrientation)orientation;
+		// @optional -(void)videoView:(TVIVideoView * _Nonnull)view videoOrientationDidChange:(TVIVideoOrientation)orientation __attribute__((swift_name("videoViewOrientationDidChange(view:dimensions:)")));
 		[Export ("videoView:videoOrientationDidChange:")]
-		void VideoView (TVIVideoView view, TVIVideoOrientation orientation);
+		void VideoViewVideoOrientationDidChange (TVIVideoView view, TVIVideoOrientation orientation);
 	}
 
 	// @interface TVIVideoView : UIView <TVIVideoRenderer>
@@ -2372,13 +2170,13 @@ namespace Twilio.Video.iOS
 	{
 	}
 
-	// @interface TwilioVideo : NSObject
+	// @interface TwilioVideoSDK : NSObject
 	[BaseType (typeof(NSObject))]
 	[DisableDefaultCtor]
-	interface TwilioVideo
+	interface TwilioVideoSDK
 	{
-      	// @property (nonatomic, strong, class) id<TVIAudioDevice> _Nonnull audioDevice;
-        [Static]
+		// @property (nonatomic, strong, class) id<TVIAudioDevice> _Nonnull audioDevice;
+       	[Static]
         [Export("audioDevice", ArgumentSemantic.Strong)]
         ITVIAudioDevice GetAudioDevice();
 
@@ -2386,20 +2184,22 @@ namespace Twilio.Video.iOS
         [Export("setAudioDevice:", ArgumentSemantic.Strong)]
         void SetAudioDevice(ITVIAudioDevice audioDevice);
 
-		// +(TVIRoom * _Nonnull)connectWithOptions:(TVIConnectOptions * _Nonnull)options delegate:(id<TVIRoomDelegate> _Nullable)delegate;
+		// +(TVIRoom * _Nonnull)connectWithOptions:(TVIConnectOptions * _Nonnull)options delegate:(id<TVIRoomDelegate> _Nullable)delegate __attribute__((swift_name("connect(options:delegate:)")));
 		[Static]
 		[Export ("connectWithOptions:delegate:")]
 		TVIRoom ConnectWithOptions (TVIConnectOptions options, [NullAllowed] TVIRoomDelegate @delegate);
 
-		// +(NSString * _Nonnull)version;
+		// +(NSString * _Nonnull)sdkVersion;
 		[Static]
-		[Export ("version")]
-		string Version { get; }
+		[Export ("sdkVersion")]
+		// [Verify (MethodToProperty)]
+		string SdkVersion { get; }
 
 		// +(TVILogLevel)logLevel;
 		// +(void)setLogLevel:(TVILogLevel)logLevel;
 		[Static]
 		[Export ("logLevel")]
+		// [Verify (MethodToProperty)]
 		TVILogLevel LogLevel { get; set; }
 
 		// +(TVILogLevel)logLevelForModule:(TVILogModule)module;

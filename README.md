@@ -4,17 +4,18 @@ Twilio Video iOS SDK binding for Xamarin
 
 [![NuGet][nuget-img]][nuget-link]
 
-[nuget-img]: https://img.shields.io/badge/nuget-2.10.0-blue.svg
+[nuget-img]: https://img.shields.io/badge/nuget-3.2.2-blue.svg
 [nuget-link]: https://www.nuget.org/packages/Twilio.Video.XamarinBinding
 
 ## How to Build
 
-### Twilio.Video iOS 2.10.0 (April 24, 2019)
+### Twilio.Video iOS 3.2.2 (February 21, 2020)
 ```
 sh bootstrapper.sh
 ```
 
-Add --registrar:static as additional mtouch arguments on iOS Build dialog for your iOS application
+Add --registrar:static as additional mtouch arguments on iOS Build dialog for your iOS application.
+Sometimes adding -cxx is also required.
 
 ## Sample
 

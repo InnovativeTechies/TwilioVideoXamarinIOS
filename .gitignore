@@ -329,7 +329,5 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-src/Native References
-src/Pods/
-src/build/
-src/Binding/
+src/Carthage/
+src/binding/

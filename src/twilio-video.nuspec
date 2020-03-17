@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Twilio.Video.XamarinBinding</id>
+    <version>3.2.2.0</version>
+    <authors>twilio dkornev</authors>
+    <owners>twilio</owners>
+    <projectUrl>https://github.com/dkornev/TwilioVideoXamarinIOS</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <title>Twilio Video iOS SDK</title>
+    <summary>Twilio Video iOS SDK binding for Xamarin iOS</summary>
+    <description>Twilio Video makes it easy for you to add multi-party video calling into your mobile applications quickly.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>twilio xamarin</tags>
+    <dependencies>
+      <!-- <dependency id="SampleDependency" version="1.0" /> -->
+    </dependencies>
+  </metadata>
+    <!-- Optional 'files' node -->
+    <files>
+        <!--iOS-->
+        <file src="bin/Release/Twilio.Video.iOS.dll" target="lib/Xamarin.iOS10/Twilio.Video.iOS.dll" />
+        <!--<file src="Twilio.Video.iOS/bin/Release/Twilio.Video.iOS.xml" target="lib/Xamarin.iOS10/Twilio.Video.iOS.xml" />-->
+    </files>
+</package>
